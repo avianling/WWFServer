@@ -37,7 +37,7 @@ public class Server {
 			
 			System.out.println("A player connected");
 			
-			if ( currentPlayers > 1 ) {
+			if ( currentPlayers >= 1 ) {
 				Player p2 = queuedPlayers.get(0);
 				queuedPlayers.remove(0);
 				currentPlayers--;

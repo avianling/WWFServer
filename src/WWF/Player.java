@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
+import java.util.Random;
 
 public class Player {
 	
@@ -13,6 +14,7 @@ public class Player {
 	
 	private BufferedReader input;
 	private BufferedWriter output;
+	private Random rand;
 	
 	public Player( Socket playerConnection ) throws IOException {
 		this.playerConnection = playerConnection;
@@ -20,7 +22,7 @@ public class Player {
 		input = new BufferedReader( new InputStreamReader( playerConnection.getInputStream() ) );
 		output = new BufferedWriter( new OutputStreamWriter( playerConnection.getOutputStream() ) );
 		
-		startGame();
+		rand = new Random();
 	}
 	
 	public void closeConnection() {
@@ -29,6 +31,9 @@ public class Player {
 	
 	public void startGame() {
 		sendWord("Game Found");
+		// We also need to send out the game information.
+		// send out the seed?
+		sendWord(rand.nextInt() + "");
 	}
 	
 	public void sendWord( String word ) {

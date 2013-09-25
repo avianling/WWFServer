@@ -8,17 +8,18 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 
-public class PlayerRedirector < E extends Player > implements Runnable {
+public class PlayerRedirector implements Runnable {
 
-	private E otherPlayer;
-	private E thisPlayer;
+	private Player otherPlayer;
+	private Player thisPlayer;
 	
-	public PlayerRedirector( E me, E otherPlayer )
+	public PlayerRedirector( Player me, Player otherPlayer )
 	{
 		thisPlayer = me;
 		this.otherPlayer = otherPlayer;
 		
-		new Thread(this).run();
+		new Thread(this).start();
+		System.out.println("Finished creating a player");
 	}
 	
 	@Override
@@ -26,7 +27,7 @@ public class PlayerRedirector < E extends Player > implements Runnable {
 		
 		// get the input stream from me
 		// forward everything in it to the other player.
-			thisPlayer.startGame();
+			System.out.println("Thread started, sending out a game started message");
 			
 			while( true )
 			{	
