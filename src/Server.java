@@ -6,19 +6,25 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
+import WWF.Game;
+import WWF.Player;
+
 
 public class Server {
 	
-	private List<Game> queuedGames;
-	private List<Game> fullGames;
+	private List<Player> queuedPlayers;
+	private List<Game> games;
 	
 	public static void main( String[] argv ) throws IOException {
 		Server server = new Server();
 	}
 	
+	private int currentPlayers;
+	
 	public Server() throws IOException {
-		queuedGames = new LinkedList<Game>();
-		fullGames = new LinkedList<Game>();
+		queuedPlayers = new LinkedList<Player>();
+		games = new LinkedList<Game>();
+		currentPlayers = 0;
 		
 		ServerSocket listener = new ServerSocket();
 		listener.bind( new InetSocketAddress( InetAddress.getLocalHost(), 5555 ));
@@ -27,24 +33,24 @@ public class Server {
 			System.out.println("Starting to listen for clients");
 			Socket newCon = listener.accept();
 			
-			System.out.println("A client connected");
+			Player p = new Player(newCon);
 			
-			Game g = new Game();
-			g.addPlayer(newCon);
-			g.startGame();
+			System.out.println("A player connected");
 			
-			/*if ( queuedGames.size() == 0 ) {
-				Game g = new Game();
-				queuedGames.add(g);
-				g.addPlayer(newCon);
+			if ( currentPlayers > 1 ) {
+				Player p2 = queuedPlayers.get(0);
+				queuedPlayers.remove(0);
+				currentPlayers--;
+				Game g = new Game( p, p2 );
+				g.start();
+				games.add(g);
+				
+				System.out.println("Fetching a player from the queue and putting them into a game.");
 			} else {
-				Game g = queuedGames.get(0);
-				if ( g.addPlayer(newCon) == true ) {
-					queuedGames.remove(0);
-					fullGames.add(g);
-					g.startGame();
-				}
-			}*/
+				System.out.println("Putting the player into the player queue");
+				queuedPlayers.add(p);
+				currentPlayers++;
+			}
 			
 		}
 	}

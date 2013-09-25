@@ -1,13 +1,13 @@
 import java.net.Socket;
 
 
-public class Game {
+public class oldGame {
 	private Socket player1;
 	private Socket player2;
 	
 	private TestPlayerRedirector redirect;
 	
-	public Game() {
+	public oldGame() {
 		System.out.println("A game created");
 	}
 	
