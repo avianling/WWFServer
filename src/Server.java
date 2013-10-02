@@ -13,7 +13,7 @@ import WWF.Player;
 public class Server {
 	
 	private List<Player> queuedPlayers;
-	private List<Game> games;
+	private List<Game<Player>> games;
 	
 	public static void main( String[] argv ) throws IOException {
 		Server server = new Server();
@@ -23,7 +23,7 @@ public class Server {
 	
 	public Server() throws IOException {
 		queuedPlayers = new LinkedList<Player>();
-		games = new LinkedList<Game>();
+		games = new LinkedList<Game<Player>>();
 		currentPlayers = 0;
 		
 		ServerSocket listener = new ServerSocket();
@@ -41,7 +41,7 @@ public class Server {
 				Player p2 = queuedPlayers.get(0);
 				queuedPlayers.remove(0);
 				currentPlayers--;
-				Game g = new Game( p, p2 );
+				Game<Player> g = new Game<Player>( p, p2 );
 				g.start();
 				games.add(g);
 				
