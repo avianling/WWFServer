@@ -7,14 +7,21 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-
+/**
+ * Handles receiving messages from one client and sending them to another.
+ * @author Alex
+ *
+ */
 public class PlayerRedirector implements Runnable {
 
 	private Player otherPlayer;
 	private Player thisPlayer;
 	
-	public PlayerRedirector( Player me, Player otherPlayer )
+	private Game game;
+	
+	public PlayerRedirector( Player me, Player otherPlayer, Game game )
 	{
+		this.game = game;
 		thisPlayer = me;
 		this.otherPlayer = otherPlayer;
 		
@@ -31,8 +38,12 @@ public class PlayerRedirector implements Runnable {
 			
 			while( true )
 			{	
-				String s = thisPlayer.getWordBlocking();
-				otherPlayer.sendWord(s);	
+				try {
+					String s = thisPlayer.getWordBlocking();
+					otherPlayer.sendWord(s);
+				} catch ( Exception e ) {
+					e.printStackTrace();
+				}
 			}
 		
 	}

@@ -1,3 +1,5 @@
+package WWF;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -6,22 +8,17 @@ import java.net.Socket;
 import java.util.LinkedList;
 import java.util.List;
 
-import WWF.Game;
-import WWF.Player;
-
-
-public class Server {
-	
+public class DebugServer {
 	private List<Player> queuedPlayers;
 	private List<Game<Player>> games;
 	
 	public static void main( String[] argv ) throws IOException {
-		Server server = new Server();
+		DebugServer server = new DebugServer();
 	}
 	
 	private int currentPlayers;
 	
-	public Server() throws IOException {
+	public DebugServer() throws IOException {
 		queuedPlayers = new LinkedList<Player>();
 		games = new LinkedList<Game<Player>>();
 		currentPlayers = 0;
@@ -37,7 +34,7 @@ public class Server {
 			
 			System.out.println("A player connected");
 			
-			if ( currentPlayers >= 1 ) {
+			/*if ( currentPlayers >= 1 ) {
 				Player p2 = queuedPlayers.get(0);
 				queuedPlayers.remove(0);
 				currentPlayers--;
@@ -51,7 +48,10 @@ public class Server {
 				queuedPlayers.add(p);
 				currentPlayers++;
 			}
+			*/
 			
+			// Immediately start the game.
+			p.startGame();
 		}
 	}
 }

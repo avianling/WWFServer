@@ -26,34 +26,27 @@ public class Player {
 	}
 	
 	public void closeConnection() {
-		
+		try {
+			output.flush();
+			playerConnection.close();
+		} catch ( Exception e ) {
+			e.printStackTrace();
+		}
 	}
 	
-	public void startGame() {
+	public void startGame() throws IOException {
 		sendWord("Game Found");
 		// We also need to send out the game information.
 		// send out the seed?
 		sendWord(rand.nextInt() + "");
 	}
 	
-	public void sendWord( String word ) {
-		try {
-			output.write(word.toString());
-			output.write("\n");
-			output.flush();
-		} catch ( Exception e ) {
-			e.printStackTrace();
-		}
+	public void sendWord( String word ) throws IOException {
+		Message m = new Message( word );
+		m.send(output);
 	}
 	
-	public String getWordBlocking() {
-		
-		try {
+	public String getWordBlocking() throws IOException {
 			return input.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return "";
-		}
-		
 	}
 }
